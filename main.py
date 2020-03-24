@@ -3,11 +3,9 @@ import datetime
 import COVID19Py
 
 covid19 = COVID19Py.COVID19()
-
 client = discord.Client()
 
 locations = covid19.getLocations()
-   
 
 @client.event
 async def on_ready():
@@ -15,17 +13,18 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    locationQuery = message.content[7:].strip()
 
     if message.author == client.user:
         return
 
     if message.content.startswith('/corona'):
+        locationQuery = message.content[7:].strip()
+
         try:
             for i in locations:
                 if i['province'] != "":
                     continue
-                if i['country'].lower() == locationQuery:
+                if i['country'].lower() == locationQuery.lower():
                     country = str(i['country'])
                     confirmed = str(i['latest']['confirmed'])
 
@@ -42,7 +41,6 @@ async def on_message(message):
 
                     embed = discord.Embed(title="Coronavirus cases in " + country, description=timedesc, color=0x764BA7)
                     embed.add_field(name="Deaths", value=deaths, inline=True)
-                    embed.add_field(name="Recovered", value=recovered, inline=True)
                     imgurl = "https://i.imgur.com/UrbDTj1.png"
                     embed.set_thumbnail(url=imgurl)
                     await message.channel.send(embed=embed)
