@@ -18,7 +18,14 @@ async def on_message(message):
         return
 
     if message.content.startswith('/corona'):
-        locationQuery = message.content[7:].strip()
+        lquery = message.content[7:].strip()
+        locationQuery = lquery.lower() 
+       
+
+        if "united states" in locationQuery or "usa" in locationQuery:
+            locationQuery = "US"
+        elif "south korea" in locationQuery or "korea" in locationQuery:
+            locationQuery = "korea, south"
 
         try:
             for i in locations:
@@ -47,6 +54,9 @@ async def on_message(message):
                 
         except Exception as ex:
             print(ex)
+
+    if message.content.startswith('/corona help'):
+        await message.channel.send("Test")
 
 if __name__ == '__main__':
     import config
