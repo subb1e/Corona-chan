@@ -56,7 +56,9 @@ async def on_message(message):
             print(ex)
 
     if message.content.startswith('/corona help'):
-        await message.channel.send("Test")
+        embed = discord.Embed(title="Bot help", color=0x764BA7)
+        embed.add_field(name="Get case information", value="/corona <country>")
+        await message.channel.send(embed=embed)
 
 if __name__ == '__main__':
     import config
